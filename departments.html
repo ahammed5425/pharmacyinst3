@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Departments | PharmaCare University</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2E8B57;
+            --primary-dark: #267349;
+            --primary-light: #3CB371;
+            --accent: #FF6B6B;
+            --accent-dark: #E55A5A;
+            --secondary: #4ECDC4;
+            --dark: #1A1A2E;
+            --light-bg: #F8F9FA;
+            --light-text: #6C757D;
+            --white: #FFFFFF;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-color: var(--white);
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background-color: var(--white);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            padding: 15px 0;
+            transition: all 0.4s ease;
+        }
+        
+        .navbar.scrolled {
+            padding: 10px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary) !important;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand i {
+            color: var(--accent);
+            margin-right: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .navbar-brand:hover i {
+            transform: rotate(15deg);
+        }
+        
+        .nav-link {
+            color: var(--dark) !important;
+            font-weight: 500;
+            margin: 0 5px;
+            padding: 8px 15px !important;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link:hover, .nav-link:focus {
+            color: var(--primary) !important;
+            background-color: rgba(46, 139, 87, 0.08);
+        }
+        
+        .nav-link.active {
+            color: var(--primary) !important;
+            font-weight: 600;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: 0;
+            left: 50%;
+            background: var(--gradient);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+            border-radius: 3px;
+        }
+        
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 70%;
+        }
+        
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 15px 0;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .dropdown-item {
+            padding: 10px 25px;
+            transition: all 0.2s ease;
+        }
+        
+        .dropdown-item:hover {
+            background-color: rgba(46, 139, 87, 0.1);
+            color: var(--primary);
+            padding-left: 30px;
+        }
+        
+        .btn-primary {
+            background: var(--gradient);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(46, 139, 87, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 139, 87, 0.4);
+        }
+        
+        .btn-outline-primary {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(46, 139, 87, 0.3);
+        }
+        
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.9), rgba(46, 139, 87, 0.8)), url('https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 150px 0 80px;
+            color: white;
+            text-align: center;
+        }
+        
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+        
+        .breadcrumb {
+            background: transparent;
+            justify-content: center;
+        }
+        
+        .breadcrumb-item a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+        }
+        
+        .breadcrumb-item.active {
+            color: white;
+        }
+        
+        /* Section Styling */
+        .section-padding {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 5px;
+            background: var(--gradient);
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 3px;
+        }
+        
+        /* Cards */
+        .card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            margin-bottom: 30px;
+            height: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .department-card {
+            border-top: 5px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .department-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        
+        .department-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .card-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        
+        .card:hover .card-icon {
+            transform: scale(1.1);
+            color: var(--secondary);
+        }
+        
+        /* Backgrounds */
+        .bg-light-custom {
+            background: linear-gradient(to bottom, #f9fafb, #ffffff);
+        }
+        
+        /* Department Tabs */
+        .nav-tabs {
+            border-bottom: 2px solid #e9ecef;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        
+        .nav-tabs .nav-link {
+            border: none;
+            color: var(--light-text);
+            font-weight: 500;
+            padding: 12px 25px;
+            margin: 0 5px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tabs .nav-link:hover {
+            color: var(--primary);
+            background-color: rgba(46, 139, 87, 0.08);
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--primary);
+            background-color: rgba(46, 139, 87, 0.1);
+            font-weight: 600;
+        }
+        
+        /* Faculty Cards */
+        .faculty-card {
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        .faculty-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            border: 5px solid #f1f1f1;
+            transition: all 0.3s ease;
+        }
+        
+        .faculty-card:hover .faculty-img {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(to bottom, #0f172a, #1e293b);
+            color: #fff;
+            padding: 80px 0 20px;
+        }
+        
+        .footer-heading {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 12px;
+        }
+        
+        .footer-heading:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: var(--gradient);
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 8px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-right: 12px;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background: var(--gradient);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 25px;
+            margin-top: 50px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 55px;
+            height: 55px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 130px 0 60px;
+            }
+            
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-padding {
+                padding: 70px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-prescription-bottle-alt"></i> PharmaCare
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admissions.html">Admissions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="research&innovation.html">Research</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="faculty.html">Faculty</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="courses.html">Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="departments.html">Departments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="facilities.html">Facilities</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="news&events.html">News & Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a class="btn btn-primary" href="contact.html">Apply Now</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Our Departments</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Departments</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Department Tabs -->
+    <section class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Academic Departments</h2>
+            <p class="text-center mb-5">Our departments are at the forefront of pharmaceutical education and research, each specializing in different aspects of pharmaceutical sciences.</p>
+            
+            <ul class="nav nav-tabs" id="departmentTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pharmaceutics-tab" data-bs-toggle="tab" data-bs-target="#pharmaceutics" type="button" role="tab">Pharmaceutics</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pharmacology-tab" data-bs-toggle="tab" data-bs-target="#pharmacology" type="button" role="tab">Pharmacology</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="chemistry-tab" data-bs-toggle="tab" data-bs-target="#chemistry" type="button" role="tab">Pharmaceutical Chemistry</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pharmacognosy-tab" data-bs-toggle="tab" data-bs-target="#pharmacognosy" type="button" role="tab">Pharmacognosy</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="practice-tab" data-bs-toggle="tab" data-bs-target="#practice" type="button" role="tab">Pharmacy Practice</button>
+                </li>
+            </ul>
+            
+            <div class="tab-content" id="departmentTabsContent">
+                <!-- Pharmaceutics Department -->
+                <div class="tab-pane fade show active" id="pharmaceutics" role="tabpanel">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 mb-4 mb-lg-0">
+                            <h3>Department of Pharmaceutics</h3>
+                            <p>The Department of Pharmaceutics focuses on the design, development, and evaluation of drug delivery systems. Our faculty and students work on innovative formulations to improve drug efficacy and patient compliance.</p>
+                            <p>Key research areas include:</p>
+                            <ul>
+                                <li>Novel drug delivery systems</li>
+                                <li>Nanotechnology in drug delivery</li>
+                                <li>Controlled release formulations</li>
+                                <li>Biopharmaceutics and pharmacokinetics</li>
+                                <li>Industrial pharmacy and technology transfer</li>
+                            </ul>
+                            <a href="pharmaceutics-department.html" class="btn btn-primary mt-3">Learn More</a>
+                        </div>
+                        <div class="col-lg-6">
+                            <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Pharmaceutics Lab" class="img-fluid rounded shadow">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pharmacology Department -->
+                <div class="tab-pane fade" id="pharmacology" role="tabpanel">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 mb-4 mb-lg-0">
+                            <h3>Department of Pharmacology</h3>
+                            <p>The Department of Pharmacology explores how drugs interact with biological systems. Our research spans from molecular mechanisms to clinical applications, with a focus on developing safer and more effective therapeutics.</p>
+                            <p>Key research areas include:</p>
+                            <ul>
+                                <li>Molecular pharmacology and drug targets</li>
+                                <li>Cardiovascular and neuropharmacology</li>
+                                <li>Cancer pharmacology</li>
+                                <li>Toxicology and safety pharmacology</li>
+                                <li>Clinical pharmacology and pharmacogenomics</li>
+                            </ul>
+                            <a href="pharmacology-department.html" class="btn btn-primary mt-3">Learn More</a>
+                        </div>
+                        <div class="col-lg-6">
+                            <img src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Pharmacology Lab" class="img-fluid rounded shadow">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pharmaceutical Chemistry Department -->
+                <div class="tab-pane fade" id="chemistry" role="tabpanel">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 mb-4 mb-lg-0">
+                            <h3>Department of Pharmaceutical Chemistry</h3>
+                            <p>The Department of Pharmaceutical Chemistry focuses on the design, synthesis, and analysis of drug molecules. We combine traditional medicinal chemistry with modern computational approaches to develop new therapeutic agents.</p>
+                            <p>Key research areas include:</p>
+                            <ul>
+                                <li>Medicinal chemistry and drug design</li>
+                                <li>Computer-aided drug design</li>
+                                <li>Natural product chemistry</li>
+                                <li>Analytical method development</li>
+                                <li>Quality control and assurance</li>
+                            </ul>
+                            <a href="chemistry-department.html" class="btn btn-primary mt-3">Learn More</a>
+                        </div>
+                        <div class="col-lg-6">
+                            <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Chemistry Lab" class="img-fluid rounded shadow">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pharmacognosy Department -->
+                <div class="tab-pane fade" id="pharmacognosy" role="tabpanel">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 mb-4 mb-lg-0">
+                            <h3>Department of Pharmacognosy</h3>
+                            <p>The Department of Pharmacognosy explores medicinal resources from nature. Our research focuses on the discovery, development, and standardization of natural products for therapeutic applications.</p>
+                            <p>Key research areas include:</p>
+                            <ul>
+                                <li>Medicinal plant research</li>
+                                <li>Natural product isolation and characterization</li>
+                                <li>Phytochemistry and standardization</li>
+                                <li>Ethnopharmacology and traditional medicine</li>
+                                <li>Marine and microbial natural products</li>
+                            </ul>
+                            <a href="pharmacognosy-department.html" class="btn btn-primary mt-3">Learn More</a>
+                        </div>
+                        <div class="col-lg-6">
+                            <img src="https://images.unsplash.com/photo-1594736797933-d0d69c3bc58d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Pharmacognosy Lab" class="img-fluid rounded shadow">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pharmacy Practice Department -->
+                <div class="tab-pane fade" id="practice" role="tabpanel">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 mb-4 mb-lg-0">
+                            <h3>Department of Pharmacy Practice</h3>
+                            <p>The Department of Pharmacy Practice focuses on the clinical aspects of pharmacy, patient care, and healthcare outcomes. We prepare students for roles in clinical pharmacy, hospital practice, and community pharmacy.</p>
+                            <p>Key research areas include:</p>
+                            <ul>
+                                <li>Clinical pharmacy and therapeutics</li>
+                                <li>Pharmacoepidemiology and outcomes research</li>
+                                <li>Pharmacy management and economics</li>
+                                <li>Patient counseling and education</li>
+                                <li>Interprofessional healthcare collaboration</li>
+                            </ul>
+                            <a href="practice-department.html" class="btn btn-primary mt-3">Learn More</a>
+                        </div>
+                        <div class="col-lg-6">
+                            <img src="https://images.unsplash.com/photo-1584467735871-8db9ac8d0918?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Pharmacy Practice" class="img-fluid rounded shadow">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- All Departments -->
+    <section class="section-padding bg-light-custom">
+        <div class="container">
+            <h2 class="section-title">All Departments</h2>
+            <p class="text-center mb-5">Explore our comprehensive range of academic departments dedicated to advancing pharmaceutical education and research.</p>
+            
+            <div class="row">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card department-card">
+                        <div class="card-body p-4">
+                            <div class="card-icon">
+                                <i class="fas fa-tablets"></i>
+                            </div>
+                            <h5 class="card-title">Pharmaceutics</h5>
+                            <p class="card-text">Focuses on drug formulation, delivery systems, and development of pharmaceutical dosage forms.</p>
+                            <a href="pharmaceutics-department.html" class="btn btn-outline-primary">Explore Department</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card department-card">
+                        <div class="card-body p-4">
+                            <div class="card-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <h5 class="card-title">Pharmacology</h5>
+                            <p class="card-text">Studies drug actions, mechanisms, therapeutic uses, and toxicological effects on biological systems.</p>
+                            <a href="pharmacology-department.html" class="btn btn-outline-primary">Explore Department</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card department-card">
+                        <div class="card-body p-4">
+                            <div class="card-icon">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <h5 class="card-title">Pharmaceutical Chemistry</h5>
+                            <p class="card-text">Focuses on drug design, synthesis, analysis, and quality control of pharmaceutical substances.</p>
+                            <a href="chemistry-department.html" class="btn btn-outline-primary">Explore Department</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card department-card">
+                        <div class="card-body p-4">
+                            <div class="card-icon">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <h5 class="card-title">Pharmacognosy</h5>
+                            <p class="card-text">Studies medicinal drugs derived from plants or other natural sources.</p>
+                            <a href="pharmacognosy-department.html" class="btn btn-outline-primary">Explore Department</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card department-card">
+                        <div class="card-body p-4">
+                            <div class="card-icon">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <h5 class="card-title">Pharmacy Practice</h5>
+                            <p class="card-text">Focuses on clinical pharmacy, patient care, and the application of pharmaceutical knowledge in practice.</p>
+                            <a href="practice-department.html" class="btn btn-outline-primary">Explore Department</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card department-card">
+                        <div class="card-body p-4">
+                            <div class="card-icon">
+                                <i class="fas fa-dna"></i>
+                            </div>
+                            <h5 class="card-title">Biotechnology</h5>
+                            <p class="card-text">Applies biological systems in technology for pharmaceutical product development.</p>
+                            <a href="biotech-department.html" class="btn btn-outline-primary">Explore Department</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Department Heads -->
+    <section class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Department Heads</h2>
+            <p class="text-center mb-5">Meet the distinguished faculty leading our academic departments.</p>
+            
+            <div class="row">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card faculty-card">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Dr. Rajesh Kumar" class="faculty-img">
+                        <h5>Dr. Rajesh Kumar</h5>
+                        <p class="text-primary">Head, Department of Pharmaceutics</p>
+                        <p>PhD in Pharmaceutical Sciences with 20+ years of experience in drug delivery research.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card faculty-card">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Dr. Priya Sharma" class="faculty-img">
+                        <h5>Dr. Priya Sharma</h5>
+                        <p class="text-primary">Head, Department of Pharmacology</p>
+                        <p>MD in Pharmacology with expertise in cardiovascular pharmacology and toxicology.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card faculty-card">
+                        <img src="https://randomuser.me/api/portraits/men/76.jpg" alt="Dr. Amit Patel" class="faculty-img">
+                        <h5>Dr. Amit Patel</h5>
+                        <p class="text-primary">Head, Department of Pharmaceutical Chemistry</p>
+                        <p>PhD in Medicinal Chemistry with research focus on anticancer drug design.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5 class="footer-heading">PharmaCare University</h5>
+                    <p>Advancing pharmaceutical education, research, and healthcare since 1985. Committed to developing skilled professionals for the global healthcare industry.</p>
+                    <div class="social-icons mt-4">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="footer-heading">Quick Links</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="courses.html">Programs</a></li>
+                        <li><a href="admissions.html">Admissions</a></li>
+                        <li><a href="research.html">Research</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="footer-heading">Contact Info</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> 123 Pharma Avenue, Medical District, Mumbai, India</li>
+                        <li><i class="fas fa-phone me-2"></i> +91 22 1234 5678</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@pharmacare.edu</li>
+                        <li><i class="fas fa-clock me-2"></i> Mon - Fri: 9:00 AM - 5:00 PM</li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="footer-heading">Newsletter</h5>
+                    <p>Subscribe to our newsletter for the latest updates on courses, events, and admissions.</p>
+                    <form>
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Your Email" aria-label="Email">
+                            <button class="btn btn-primary" type="button">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 PharmaCare University. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Back to top button
+        const backToTopButton = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+            
+            // Navbar scroll effect
+            if (window.scrollY > 50) {
+                document.querySelector('.navbar').classList.add('scrolled');
+            } else {
+                document.querySelector('.navbar').classList.remove('scrolled');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
